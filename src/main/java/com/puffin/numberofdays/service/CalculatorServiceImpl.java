@@ -8,13 +8,26 @@ import java.util.Map;
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
 
-	private static final String BASE = "01/01/1901";
 	private static final int BASE_YEAR = 1901;
-	private static final int BASE_MONTH = 1;
-	private static final int BASE_DAY = 1;
-	private static final int BASE_NUMBER = 0;
 
 	private static final Map<String, String> daysInMonth = createMap();
+
+	private static Map<String, String> createMap() {
+		Map<String, String> myMap = new HashMap<>();
+		myMap.put("01", "31");
+		myMap.put("02", "59");
+		myMap.put("03", "90");
+		myMap.put("04", "120");
+		myMap.put("05", "151");
+		myMap.put("06", "181");
+		myMap.put("07", "212");
+		myMap.put("08", "243");
+		myMap.put("09", "273");
+		myMap.put("10", "304");
+		myMap.put("11", "334");
+		myMap.put("12", "365");
+		return myMap;
+	}
 
 	@Override
 	public Integer calculateNumberOfDays(String startDate, String endDate) {
@@ -34,29 +47,10 @@ public class CalculatorServiceImpl implements CalculatorService {
 		int year = calculateNumberOfDaysFromYears(input[2]);
 		int month = Integer.parseInt(daysInMonth.get(input[1]));
 		int day = Integer.parseInt(input[0]);
-		return year+month+day;
+		return year + month + day;
 	}
-
 
 	private int calculateNumberOfDaysFromYears(String startYear) {
 		return 365 * (Integer.parseInt(startYear) - BASE_YEAR);
-	}
-
-	private static Map<String, String> createMap()
-	{
-		Map<String,String> myMap = new HashMap<String,String>();
-		myMap.put("01", "31");
-		myMap.put("02", "59");
-		myMap.put("03", "90");
-		myMap.put("04", "120");
-		myMap.put("05", "151");
-		myMap.put("06", "181");
-		myMap.put("07", "212");
-		myMap.put("08", "243");
-		myMap.put("09", "273");
-		myMap.put("10", "304");
-		myMap.put("11", "334");
-		myMap.put("12", "365");
-		return myMap;
 	}
 }

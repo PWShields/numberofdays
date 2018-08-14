@@ -44,12 +44,14 @@ public class InputServiceImpl implements InputService {
 			textIO.getTextTerminal().println("");
 		} else {
 			textIO.getTextTerminal().println("Dates supplied are NOT valid");
+			textIO.getTextTerminal().println("");
 			textIO.getTextTerminal().printf("Minimum date is %s", minimumDate);
+			textIO.getTextTerminal().println("");
 			textIO.getTextTerminal().printf("Maximum date is %s", maximumDate);
+			textIO.getTextTerminal().println("");
 			textIO.getTextTerminal().println("Values must be valid dates");
 			textIO.getTextTerminal().println("Format is DD/MM/YYYY");
 		}
-
 
 		Boolean enterNewDates = askToContinue();
 		if (enterNewDates) {
@@ -60,10 +62,62 @@ public class InputServiceImpl implements InputService {
 	}
 
 	private Boolean validateDates(String startDate, String endDate) {
-		//endDate must be after startDate
-		//days must be between 01 and 31, months must be between 01 and 12
-		//years must be between 1901 and 2999
-		return true;
+		Boolean isValid = true;
+		String[] start = startDate.split("/");
+		String[] end = endDate.split("/");
+		Integer startYear = Integer.parseInt(start[2]);
+		Integer endYear = Integer.parseInt(end[2]);
+
+		isValid = validateDays(Integer.parseInt(start[0]), Integer.parseInt(end[0]));
+		if (isValid) {
+			isValid = validateMonths(Integer.parseInt(start[1]), Integer.parseInt(end[1]));
+		}
+		if (isValid) {
+			isValid = validateYears(startYear, endYear);
+		}
+		if (isValid && startYear == endYear) {
+			isValid = validateSameYear(start, end);
+		}
+		return isValid;
+	}
+
+	private Boolean validateMonths(int startMonth, int endMonth) {
+		return (startMonth >= 1 && startMonth <= 12 && endMonth >= 1 && endMonth <= 12);
+	}
+
+	private Boolean validateSameYear(String[] start, String[] end) {
+		Boolean isValid = false;
+		Integer startMonth = Integer.parseInt(start[1]);
+		Integer endMonth = Integer.parseInt(end[1]);
+		Integer startDay = Integer.parseInt(end[0]);
+		Integer endDay = Integer.parseInt(end[0]);
+		if (endMonth > startMonth) {
+			isValid = true;
+		} else if (endMonth == startMonth && startDay <= endDay) {
+			isValid = true;
+		}
+		return isValid;
+	}
+
+
+	private Boolean validateYears(Integer startYear, Integer endYear) {
+		Boolean isValid = endYear >= startYear;
+		if (isValid) {
+			if (endYear > 2999 || startYear < 1901)
+				isValid = false;
+		}
+		return isValid;
+	}
+
+	private Boolean validateDays(Integer startDay, Integer endDay) {
+		Boolean isValid = true;
+		if (endDay < 1 ||
+				endDay > 31 ||
+				startDay < 1 ||
+				startDay > 31) {
+			isValid = false;
+		}
+		return isValid;
 	}
 
 
