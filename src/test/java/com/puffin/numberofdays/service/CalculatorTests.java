@@ -1,48 +1,54 @@
 package com.puffin.numberofdays.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.Collection;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@RunWith(Parameterized.class)
 public class CalculatorTests {
 
 	CalculatorService calculatorService;
+	private String start;
+	private String end;
+	private Integer expectedResult;
 
-	private static Stream<Arguments> buildTestData() {
-		return Stream.of(
-				Arguments.of("02/06/1983", "22/06/1983", 19),
-				Arguments.of("04/07/1984", "25/12/1984", 173),
-				Arguments.of("03/01/1989", "03/08/1983", 1979)
-		);
+	public CalculatorTests(String start, String end, Integer expectedResult) {
+		this.start = start;
+		this.end = end;
+		this.expectedResult = expectedResult;
 	}
 
-	@BeforeEach
+	@Parameterized.Parameters
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][]{
+				{"02/06/1983", "22/06/1983", 19},
+				{"04/07/1984", "25/12/1984", 173},
+				{"03/01/1989", "03/08/1983", 1979}
+		});
+	}
+
+	@Before
 	public void setup() {
 		calculatorService = new CalculatorServiceImpl();
-
 	}
 
-	@ParameterizedTest
-	@MethodSource("buildTestData")
-	public void givenValidInput_thenValidOutput(String start, String end, Integer expectedResult) {
-
+	@Test
+	public void givenValidInput_thenValidOutput() {
 		Integer numberOfDays = calculatorService.calculateNumberOfDays(start, end);
-
 		assertThat(numberOfDays, is(expectedResult));
-
 	}
 
-	//		Input       (DD/MM/YYYY)      Output (Days)
-//		02/06/1983  22/06/1983          19
-//		04/07/1984  25/12/1984          173
-//      03/01/1989  03/08/1983          1979
-
+	@After
+	public void tearDown() {
+		calculatorService = null;
+	}
 
 }
