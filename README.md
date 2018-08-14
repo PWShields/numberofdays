@@ -29,7 +29,7 @@ mvn test
  
 ## Known Issues
 
-You might have to check your cursor is in the right spot when applciation starts up (there may be a slight delay where the app is non responsive.)
+You might have to check your cursor is in the right spot when application starts up (there may be a slight delay where the app is non responsive.)
 
 Depending on how and where you run the app you will either stay in your terminal screen OR you will be taken to a terminal GUI.
 
