@@ -38,7 +38,10 @@ public class CalculatorServiceImpl implements CalculatorService {
 
 		int numberOfDaysStart = calculateNumberFromBase(start);
 		int numberOfDaysEnd = calculateNumberFromBase(end);
-		numberOfDays = numberOfDaysEnd - numberOfDaysStart;
+		numberOfDays = numberOfDaysEnd - numberOfDaysStart - 1;
+		if (numberOfDays < 0) {
+			numberOfDays = -numberOfDays;
+		}
 
 		return numberOfDays;
 	}
