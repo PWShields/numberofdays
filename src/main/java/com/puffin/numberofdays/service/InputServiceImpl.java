@@ -18,23 +18,38 @@ public class InputServiceImpl implements InputService {
 
 	@Override
 	public void readDatesFromTerminal() {
-
+		String minimumDate = "01/01/1901";
+		String maximumDate = "31/12/2999";
+		Integer numberOfDays = 0;
 
 		String startDate = textIO.newStringInputReader()
-				.withDefaultValue("01/01/1901")
+				.withDefaultValue(minimumDate)
+				.withPattern("[0-3][0-9](/)[0-2][1-9](/)[0-9]{4}")
+				.withMaxLength(10)
+				.withMinLength(10)
 				.read("Start date:");
 
 		String endDate = textIO.newStringInputReader()
-
-				.withDefaultValue("31/12/2999")
-
+				.withDefaultValue(maximumDate)
+				.withPattern("[0-3][0-9](/)[0-2][1-9](/)[0-9]{4}")
+				.withMaxLength(10)
+				.withMinLength(10)
 				.read("End date:");
 
-//		Integer numberOfDays = calculatorService.calculateNumberOfDays(startDate, endDate);
-		Integer numberOfDays = 15;
+		Boolean datesAreValid = validateDates(startDate, endDate);
 
-		textIO.getTextTerminal().printf("Number of days is %d", numberOfDays);
-		textIO.getTextTerminal().println("");
+		if (datesAreValid) {
+			numberOfDays = calculatorService.calculateNumberOfDays(startDate, endDate);
+			textIO.getTextTerminal().printf("Number of days is %d", numberOfDays);
+			textIO.getTextTerminal().println("");
+		} else {
+			textIO.getTextTerminal().println("Dates supplied are NOT valid");
+			textIO.getTextTerminal().printf("Minimum date is %s", minimumDate);
+			textIO.getTextTerminal().printf("Maximum date is %s", maximumDate);
+			textIO.getTextTerminal().println("Values must be valid dates");
+			textIO.getTextTerminal().println("Format is DD/MM/YYYY");
+		}
+
 
 		Boolean enterNewDates = askToContinue();
 		if (enterNewDates) {
@@ -42,6 +57,13 @@ public class InputServiceImpl implements InputService {
 		} else {
 			sayGoodBye();
 		}
+	}
+
+	private Boolean validateDates(String startDate, String endDate) {
+		//endDate must be after startDate
+		//days must be between 01 and 31, months must be between 01 and 12
+		//years must be between 1901 and 2999
+		return true;
 	}
 
 
