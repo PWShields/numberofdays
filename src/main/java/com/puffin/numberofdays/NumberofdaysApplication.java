@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static java.lang.System.exit;
-
 @SpringBootApplication
 public class NumberofdaysApplication implements CommandLineRunner {
 
@@ -18,7 +16,6 @@ public class NumberofdaysApplication implements CommandLineRunner {
 	InputServiceImpl inputService;
 
 	public static void main(String[] args) {
-
 		//Set up a Terminal Window
 		TextIO textIO = TextIoFactory.getTextIO();
 		textIO.getTextTerminal().println("Welcome to Number of Days");
@@ -31,16 +28,10 @@ public class NumberofdaysApplication implements CommandLineRunner {
 		SpringApplication app = new SpringApplication(NumberofdaysApplication.class);
 		app.setBannerMode(Banner.Mode.OFF);
 		app.run(args);
-
-
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-
 		inputService.readDatesFromTerminal();
-
-
-//		exit(0);
 	}
 }

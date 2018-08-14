@@ -145,34 +145,4 @@ public class InputServiceImpl implements InputService {
 
 	}
 
-
-//	TextIO textIO = TextIoFactory.getTextIO();
-//
-//	String startDate = textIO.newStringInputReader()
-//
-//			.withDefaultValue("01/01/1901")
-//
-//			.read("Start date:");
-//
-//	String endDate = textIO.newStringInputReader()
-//
-//			.withDefaultValue("31/12/2999")
-//
-//			.read("End date:");
-//
-//
-//	int age = textIO.newIntInputReader()
-//
-//			.withMinVal(13)
-//
-//			.read("Age");
-//
-//	Month month = textIO.newEnumInputReader(Month.class)
-//
-//			.read("What month were you born in?");
-//
-//		textIO.getTextTerminal().printf("User %s is %d years old, was born in %s and has the password %s.\n",
-//
-//		                                user, age, month, password);
-
 }
